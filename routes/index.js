@@ -2,19 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/',  (req,res,next) => {
-    res.send("Hello Jordan!")
-
-})
-
-router.get('/json',  (req,res,next) => {
-    const data = {
-        'greeting':"Hello Again!"
-    }
-    res.send(data)
-})
-
-router.get('/home', (req, res, next) => {
     res.render('home', null)
+
 })
 
 router.get('/query', (req, res) => {
@@ -25,16 +14,6 @@ router.get('/query', (req, res) => {
 		name: name,
 		occupation: occupation
 	}
-
-	res.render('profile', data)
-})
-
-router.get('/:path', (req, res) => {
-	const path = req.params.path
-
-	res.json({
-		data: path
-	})
 
 })
 
