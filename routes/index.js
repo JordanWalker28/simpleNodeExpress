@@ -1,9 +1,34 @@
 const express = require('express')
 const router = express.Router()
+const profiles = {
+	jordan: {
+		name: 'Jordan Walker',
+		company: 'Insightsoftware',
+		languages: ['C#', 'Python', 'JavaScript']
+	},
+	bgates: {
+		name: 'Bill Gates',
+		company: 'Microsoft',
+		languages: ['C#', 'C++', 'C']
+	},
+	sjobs: {
+		name: 'Steve Jobs',
+		company: 'Apple',
+		languages: ['Swift', 'Objective-C', 'Ruby']
+	}
+}
 
 router.get('/',  (req,res,next) => {
     res.render('index', null)
+})
 
+router.post('/addprofile', (req, res) => {
+	const body = req.body
+	body['languages'] = req.body.languages.split(', ')
+
+	profiles[body.username] = body
+
+	res.redirect('/profile/' + body.username)
 })
 
 router.get('/query', (req, res) => {
@@ -20,11 +45,19 @@ router.get('/query', (req, res) => {
 router.get('/:profile/:username', (req, res) => {
 	const profile = req.params.profile
 	const username = req.params.username
+	const currentProfile = profiles[username]
 
-	res.json({
-		profile: profile,
-		username: username
-	})
+	if(currentProfile == null){
+		res.json({
+			confirmation: 'fail',
+			message: 'Profile ' + username + ' not found'
+		})
+
+		return
+	}
+
+	res.render('profile', currentProfile)
+	
 })
 
 module.exports = router
