@@ -3,16 +3,19 @@ const router = express.Router()
 const profiles = {
 	jordan: {
 		name: 'Jordan Walker',
+		image: '/images/me.jpg',
 		company: 'Insightsoftware',
 		languages: ['C#', 'Python', 'JavaScript']
 	},
 	bgates: {
 		name: 'Bill Gates',
+		image: '/images/billg.jpg',
 		company: 'Microsoft',
 		languages: ['C#', 'C++', 'C']
 	},
 	sjobs: {
 		name: 'Steve Jobs',
+		image: '/images/stevej.jpg',
 		company: 'Apple',
 		languages: ['Swift', 'Objective-C', 'Ruby']
 	}
