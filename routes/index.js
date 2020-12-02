@@ -2,18 +2,21 @@ const express = require('express')
 const router = express.Router()
 const profiles = {
 	jordan: {
+		username: 'jordan',
 		name: 'Jordan Walker',
 		image: '/images/me.jpg',
 		company: 'Insightsoftware',
 		languages: ['C#', 'Python', 'JavaScript']
 	},
 	bgates: {
+		username: 'bgates',
 		name: 'Bill Gates',
 		image: '/images/billg.jpg',
 		company: 'Microsoft',
 		languages: ['C#', 'C++', 'C']
 	},
 	sjobs: {
+		username: 'sjobs',
 		name: 'Steve Jobs',
 		image: '/images/stevej.jpg',
 		company: 'Apple',
@@ -21,8 +24,35 @@ const profiles = {
 	}
 }
 
-router.get('/',  (req,res,next) => {
-    res.render('index', null)
+router.get('/', (req, res) => {
+	res.render('index', {text: 'This is the dynamic data. Open index.js from the routes directory to see.'})
+})
+
+router.get('/profiles', (req, res) => {
+	const keys = Object.keys(profiles)
+	const list = []
+	keys.forEach(key => {
+		list.push(profiles[key])
+	})
+
+	const data = {
+		profiles: list,
+		timestamp: req.timestamp
+	}
+
+	res.render('profiles', data)
+})
+
+router.post('/createprofile', (req, res) => {
+	const body = req.body
+	body['languages'] = req.body.languages.split(', ')
+
+	profiles[body.username] = body
+	res.json({
+		confirmation: 'success',
+		data: profiles[body.username]
+	})
+	// res.redirect('/profile/'+body.username)
 })
 
 router.post('/addprofile', (req, res) => {
@@ -30,8 +60,7 @@ router.post('/addprofile', (req, res) => {
 	body['languages'] = req.body.languages.split(', ')
 
 	profiles[body.username] = body
-
-	res.redirect('/profile/' + body.username)
+	res.redirect('/profile/'+body.username)
 })
 
 router.get('/query', (req, res) => {
@@ -43,6 +72,16 @@ router.get('/query', (req, res) => {
 		occupation: occupation
 	}
 
+	res.render('profile', data)
+})
+
+router.get('/:path', (req, res) => {
+	const path = req.params.path
+
+	res.json({
+		data: path
+	})
+
 })
 
 router.get('/:profile/:username', (req, res) => {
@@ -50,7 +89,7 @@ router.get('/:profile/:username', (req, res) => {
 	const username = req.params.username
 	const currentProfile = profiles[username]
 
-	if(currentProfile == null){
+	if (currentProfile == null){
 		res.json({
 			confirmation: 'fail',
 			message: 'Profile ' + username + ' not found'
@@ -59,9 +98,8 @@ router.get('/:profile/:username', (req, res) => {
 		return
 	}
 
+	currentProfile.timestamp = req.timestamp
 	res.render('profile', currentProfile)
-	
 })
 
 module.exports = router
-

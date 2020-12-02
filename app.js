@@ -6,6 +6,13 @@ const registerRouter = require('./routes/register.js')
 const port = 3000
 var bodyParser = require('body-parser');
 
+const timestamp = (req, res, next) => {
+    const timestamp = new Date()
+    req.timestamp = timestamp.toString()
+    next()
+  }
+  
+
 
 const app = express()
 
@@ -17,6 +24,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/', indexRouter)
 app.use('/register', registerRouter)
+app.use(timestamp)
 app.listen(port)
 
 console.log('Server running on http://localhost:' + port)
