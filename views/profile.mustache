@@ -6,7 +6,13 @@
 
 
     <body class="container">
-        <h1> This is the profile, welcome! </h1>
+
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="/profiles">Home</a>
+        </nav>
+
+        <h1> Welcome to J-Profile! </h1>
+        <span>{{timestamp}}</span>
      	<h2>{{name}}</h2>
          <img src="{{image}}"/>
 	    <h3>Company: {{company}}</h3>
@@ -19,25 +25,6 @@
             {{/languages}}
 
         </ol>
-
-        <div class="row">
-
-		<div class="col-md-6 col-md-offset-3" style="text-align:center;margin-bottom:48px">
-			<h1>Welcome to Turbo</h1>
-			<hr />
-			<div style="background:#f9f9f9;border:1px solid #ddd;border-radius:3px;padding:12px">
-
-				<form action="/addprofile" method="POST">
-					<input type="text" name="name" placeholder="Name" /><br />
-                    <input type="text" name="image" placeholder="/images/example.jpg" /><br />
-                    <input type="text" name="username" placeholder="Username" /><br />
-                    <input type="text" name="company" placeholder="Company" /><br />
-					<input type="text" name="languages" placeholder="Languages" /><br />
-					<input type="submit" value="Add Member!" />
-				</form>
-
-			</div>
-		</div>
 
     </body>
 
